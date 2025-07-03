@@ -21,7 +21,7 @@ export default function SettingsPage() {
     <div className="flex flex-col gap-6 animate-in fade-in duration-500">
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-           <SidebarTrigger className="md:hidden" />
+           <SidebarTrigger />
           <h1 className="font-headline text-2xl md:text-3xl font-bold tracking-tight">
             Settings
           </h1>
