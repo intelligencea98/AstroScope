@@ -25,10 +25,8 @@ export default function RootLayout({
       <body className="font-body antialiased">
         <SidebarProvider>
           <AppSidebar />
-          <SidebarInset>
-            <div className="h-full overflow-y-auto">
-              <main className="p-4 md:p-6">{children}</main>
-            </div>
+          <SidebarInset className="p-4 md:p-6">
+            {children}
           </SidebarInset>
         </SidebarProvider>
         <Toaster />
