@@ -16,6 +16,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'api.nasa.gov',
+        port: '',
+        pathname: '/EPIC/archive/natural/**',
+      },
     ],
   },
   webpack: (config, {isServer}) => {

@@ -1,6 +1,7 @@
 import SpaceWeatherTool from "@/components/space-weather-tool";
 import TleTool from "@/components/tle-tool";
 import NeoTool from "@/components/neo-tool";
+import EpicTool from "@/components/epic-tool";
 import {
   Card,
   CardContent,
@@ -18,19 +19,20 @@ export default function ToolsPage() {
          <div className="flex items-center gap-2">
            <SidebarTrigger className="md:hidden" />
           <h1 className="font-headline text-2xl md:text-3xl font-bold tracking-tight">
-            AI Tools
+            AI & Data Tools
           </h1>
         </div>
       </header>
       <p className="text-muted-foreground">
-        Leverage GenAI to process and analyze complex space data.
+        Leverage GenAI and NASA APIs to process and analyze complex space data.
       </p>
 
       <Tabs defaultValue="space-weather" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="space-weather">Space Weather</TabsTrigger>
           <TabsTrigger value="tle-data">TLE Data</TabsTrigger>
           <TabsTrigger value="neo-data">NEO Analysis</TabsTrigger>
+          <TabsTrigger value="epic-imagery">EPIC Imagery</TabsTrigger>
         </TabsList>
         <TabsContent value="space-weather" className="animate-in fade-in-50 duration-500">
           <Card>
@@ -68,6 +70,19 @@ export default function ToolsPage() {
             </CardHeader>
             <CardContent>
               <NeoTool />
+            </CardContent>
+          </Card>
+        </TabsContent>
+         <TabsContent value="epic-imagery" className="animate-in fade-in-50 duration-500">
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-headline">EPIC Daily Earth Imagery</CardTitle>
+              <CardDescription>
+                View the most recent full disc imagery of Earth from the DSCOVR satellite.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <EpicTool />
             </CardContent>
           </Card>
         </TabsContent>

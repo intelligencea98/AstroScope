@@ -5,6 +5,7 @@ import { subDays, format } from 'date-fns';
 const API_KEY = process.env.NASA_API_KEY || 'DEMO_KEY';
 const DONKI_BASE_URL = 'https://api.nasa.gov/DONKI';
 const NEO_BASE_URL = 'https://api.nasa.gov/neo/rest/v1';
+const EPIC_BASE_URL = 'https://api.nasa.gov/EPIC/api';
 
 async function fetchDonkiData(endpoint: string, params: Record<string, string>) {
   const url = new URL(`${DONKI_BASE_URL}/${endpoint}`);
@@ -92,4 +93,45 @@ export async function getNeoLookup(asteroidId: string) {
 
 export async function getNeoBrowse() {
     return fetchNeoData('neo/browse');
+}
+
+// EPIC Functions
+async function fetchEpicData(endpoint: string, params: Record<string, string> = {}) {
+    const url = new URL(`${EPIC_BASE_URL}/${endpoint}`);
+    url.searchParams.append('api_key', API_KEY);
+    for (const key in params) {
+        url.searchParams.append(key, params[key]);
+    }
+
+    try {
+        const response = await fetch(url.toString(), { cache: 'no-store' });
+        if (!response.ok) {
+            let errorMessage = `EPIC API request failed with status ${response.status}`;
+            try {
+                const errorJson = await response.json();
+                if (errorJson.msg) {
+                    errorMessage = errorJson.msg;
+                }
+            } catch (e) {
+                // Ignore if response is not JSON
+            }
+            throw new Error(errorMessage);
+        }
+        return response.json();
+    } catch (error) {
+        console.error(`Error fetching data from EPIC ${endpoint}:`, error);
+        throw error;
+    }
+}
+
+export async function getRecentEpicImages() {
+    return fetchEpicData('natural/images');
+}
+
+export function buildEpicImageUrl(image: { image: string, date: string }) {
+    const date = new Date(image.date);
+    const year = date.getUTCFullYear();
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+    const day = date.getUTCDate().toString().padStart(2, '0');
+    return `https://api.nasa.gov/EPIC/archive/natural/${year}/${month}/${day}/png/${image.image}.png?api_key=${API_KEY}`;
 }
