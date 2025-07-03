@@ -200,8 +200,8 @@ export default function NeoTool() {
                 <p className="font-semibold text-lg">Closest Approach Object</p>
                 <div className="text-sm text-muted-foreground">
                     <p><strong>Name:</strong> {result.closestApproach.name}</p>
-                    <p><strong>Miss Distance:</strong> {result.closestApproach.missDistanceKm} km</p>
-                    <p><strong>Diameter:</strong> {result.closestApproach.estimatedDiameterKm} km</p>
+                    <p><strong>Miss Distance:</strong> {result.closestApproach.missDistanceKm.toLocaleString()} km</p>
+                    <p><strong>Diameter:</strong> {result.closestApproach.estimatedDiameterKm.toLocaleString(undefined, { maximumFractionDigits: 3 })} km</p>
                 </div>
               </div>
 
@@ -209,8 +209,8 @@ export default function NeoTool() {
                 <p className="font-semibold text-lg">Largest Object</p>
                  <div className="text-sm text-muted-foreground">
                     <p><strong>Name:</strong> {result.largestObject.name}</p>
-                    <p><strong>Diameter:</strong> {result.largestObject.estimatedDiameterKm} km</p>
-                    <p><strong>Velocity:</strong> {result.largestObject.relativeVelocityKph} km/h</p>
+                    <p><strong>Diameter:</strong> {result.largestObject.estimatedDiameterKm.toLocaleString(undefined, { maximumFractionDigits: 3 })} km</p>
+                    <p><strong>Velocity:</strong> {result.largestObject.relativeVelocityKph.toLocaleString()} km/h</p>
                 </div>
               </div>
             </CardContent>

@@ -1,3 +1,4 @@
+
 // src/ai/schemas.ts
 import {z} from 'zod';
 
@@ -54,13 +55,13 @@ export const AnalyzeNeoDataOutputSchema = z.object({
   potentiallyHazardousNeos: z.number().describe('The number of potentially hazardous asteroids detected.'),
   closestApproach: z.object({
     name: z.string().describe('Name of the NEO with the closest approach.'),
-    missDistanceKm: z.string().describe('The miss distance in kilometers.'),
-    estimatedDiameterKm: z.string().describe('The average estimated diameter in kilometers.'),
+    missDistanceKm: z.number().describe('The miss distance in kilometers.'),
+    estimatedDiameterKm: z.number().describe('The average estimated diameter in kilometers.'),
   }).describe('Details of the object making the closest approach to Earth.'),
   largestObject: z.object({
     name: z.string().describe('Name of the largest NEO detected.'),
-    estimatedDiameterKm: z.string().describe('The average estimated diameter in kilometers.'),
-    relativeVelocityKph: z.string().describe('The relative velocity in kilometers per hour.'),
+    estimatedDiameterKm: z.number().describe('The average estimated diameter in kilometers.'),
+    relativeVelocityKph: z.number().describe('The relative velocity in kilometers per hour.'),
   }).describe('Details of the largest object detected in the period.'),
 });
 export type AnalyzeNeoDataOutput = z.infer<typeof AnalyzeNeoDataOutputSchema>;
