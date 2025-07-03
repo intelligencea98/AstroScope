@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Logo } from '@/components/icons';
 
@@ -15,7 +16,7 @@ export default function AppFooter() {
           &copy; {new Date().getFullYear()} AstroScope. All rights reserved. <br className="sm:hidden" />
           Data sourced from NASA &amp; Celestrak.
         </p>
-        <div className="flex items-center gap-4 text-sm font-medium">
+        <div className="flex items-center gap-4 text-sm font-medium flex-wrap justify-center">
           <Link
             href="/about"
             className="text-muted-foreground transition-colors hover:text-foreground"
@@ -33,6 +34,18 @@ export default function AppFooter() {
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
             Settings
+          </Link>
+           <Link
+            href="/terms"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Terms
+          </Link>
+           <Link
+            href="/privacy"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Privacy
           </Link>
         </div>
       </div>
