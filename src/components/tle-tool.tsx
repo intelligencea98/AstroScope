@@ -5,10 +5,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Bot, Loader2 } from "lucide-react";
 
+import { processTleData } from "@/ai/flows/process-tle-data";
 import {
-  processTleData,
-  ProcessTleDataInput,
-} from "@/ai/flows/process-tle-data";
+  ProcessTleDataInputSchema,
+  type ProcessTleDataInput,
+} from "@/ai/schemas";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -23,12 +24,11 @@ import { useToast } from "@/hooks/use-toast";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "./ui/card";
 
-const formSchema = ProcessTleDataInput;
+const formSchema = ProcessTleDataInputSchema;
 
 const defaultTleData = `ISS (ZARYA)
 1 25544U 98067A   24137.91690972  .00016717  00000-0  30965-3 0  9993

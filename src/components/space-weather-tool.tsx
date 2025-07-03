@@ -5,10 +5,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Bot, Loader2 } from "lucide-react";
 
+import { analyzeSpaceWeatherData } from "@/ai/flows/process-space-weather-data";
 import {
-  analyzeSpaceWeatherData,
-  AnalyzeSpaceWeatherDataInput,
-} from "@/ai/flows/process-space-weather-data";
+  AnalyzeSpaceWeatherDataInputSchema,
+  type AnalyzeSpaceWeatherDataInput,
+} from "@/ai/schemas";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -30,7 +31,7 @@ import {
 } from "./ui/card";
 import { Badge } from "./ui/badge";
 
-const formSchema = AnalyzeSpaceWeatherDataInput;
+const formSchema = AnalyzeSpaceWeatherDataInputSchema;
 
 const defaultFlareData = `[
   {

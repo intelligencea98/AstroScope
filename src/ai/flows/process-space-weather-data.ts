@@ -9,27 +9,19 @@
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import {
+  AnalyzeSpaceWeatherDataInputSchema,
+  AnalyzeSpaceWeatherDataOutputSchema,
+} from '@/ai/schemas';
+import type {
+  AnalyzeSpaceWeatherDataInput,
+  AnalyzeSpaceWeatherDataOutput,
+} from '@/ai/schemas';
 
-const AnalyzeSpaceWeatherDataInputSchema = z.object({
-  solarFlareData: z.string().describe('Data about solar flares from NASA DONKI.'),
-  cmeData: z.string().describe('Data about coronal mass ejections (CMEs) from NASA DONKI.'),
-  geomagneticStormData: z
-    .string()
-    .describe('Data about geomagnetic storms from NASA DONKI.'),
-});
-export type AnalyzeSpaceWeatherDataInput = z.infer<typeof AnalyzeSpaceWeatherDataInputSchema>;
-
-const AnalyzeSpaceWeatherDataOutputSchema = z.object({
-  summary: z.string().describe('A summary of the potential risks to satellites based on the space weather data.'),
-  riskLevel: z
-    .enum(['low', 'moderate', 'high'])
-    .describe('The overall risk level to satellites based on the space weather data.'),
-  affectedSatellites: z
-    .array(z.string())
-    .describe('A list of specific satellites that may be at risk.'),
-});
-export type AnalyzeSpaceWeatherDataOutput = z.infer<typeof AnalyzeSpaceWeatherDataOutputSchema>;
+export type {
+  AnalyzeSpaceWeatherDataInput,
+  AnalyzeSpaceWeatherDataOutput,
+};
 
 export async function analyzeSpaceWeatherData(
   input: AnalyzeSpaceWeatherDataInput

@@ -10,19 +10,16 @@
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import {
+  ProcessTleDataInputSchema,
+  ProcessTleDataOutputSchema,
+} from '@/ai/schemas';
+import type {
+  ProcessTleDataInput,
+  ProcessTleDataOutput,
+} from '@/ai/schemas';
 
-const ProcessTleDataInputSchema = z.object({
-  tleData: z
-    .string()
-    .describe('The TLE data to process.'),
-});
-export type ProcessTleDataInput = z.infer<typeof ProcessTleDataInputSchema>;
-
-const ProcessTleDataOutputSchema = z.object({
-  orbitalPositions: z.string().describe('The orbital positions extracted from the TLE data.'),
-});
-export type ProcessTleDataOutput = z.infer<typeof ProcessTleDataOutputSchema>;
+export type { ProcessTleDataInput, ProcessTleDataOutput };
 
 export async function processTleData(input: ProcessTleDataInput): Promise<ProcessTleDataOutput> {
   return processTleDataFlow(input);
