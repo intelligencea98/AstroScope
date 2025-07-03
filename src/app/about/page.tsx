@@ -46,11 +46,23 @@ export default function AboutPage() {
             We extend our gratitude to the following organizations for providing the public access to their invaluable data:
           </p>
           <ul className="list-disc list-inside space-y-2">
-            <li>
-              <strong>Celestrak:</strong> For providing comprehensive Two-Line Element (TLE) sets for tracking satellites and space debris.
+             <li>
+              <strong>NASA APOD (Astronomy Picture of the Day):</strong> For providing daily captivating images of our universe.
+            </li>
+             <li>
+              <strong>NASA DONKI (Database of Notifications, Knowledge, Information):</strong> For offering real-time data on space weather events including solar flares, coronal mass ejections (CMEs), and geomagnetic storms.
+            </li>
+             <li>
+              <strong>NASA NeoWs (Near Earth Object Web Service):</strong> For tracking asteroids and comets that have a close approach to Earth.
+            </li>
+             <li>
+              <strong>NASA EPIC (Earth Polychromatic Imaging Camera):</strong> For stunning full-disc imagery of Earth from the DSCOVR satellite.
+            </li>
+             <li>
+              <strong>NASA InSight Mission:</strong> For providing the latest weather reports from the surface of Mars.
             </li>
             <li>
-              <strong>NASA DONKI (Database of Notifications, Knowledge, Information):</strong> For offering real-time data on space weather events including solar flares, coronal mass ejections (CMEs), and geomagnetic storms.
+              <strong>Celestrak:</strong> For providing comprehensive Two-Line Element (TLE) sets for tracking satellites and space debris.
             </li>
              <li>
               <strong>Firebase & Google Cloud:</strong> For the powerful backend infrastructure and AI capabilities that power this application.
