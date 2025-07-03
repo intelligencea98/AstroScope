@@ -2,6 +2,7 @@ import SpaceWeatherTool from "@/components/space-weather-tool";
 import TleTool from "@/components/tle-tool";
 import NeoTool from "@/components/neo-tool";
 import EpicTool from "@/components/epic-tool";
+import MarsWeatherTool from "@/components/mars-weather-tool";
 import {
   Card,
   CardContent,
@@ -28,11 +29,12 @@ export default function ToolsPage() {
       </p>
 
       <Tabs defaultValue="space-weather" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
           <TabsTrigger value="space-weather">Space Weather</TabsTrigger>
           <TabsTrigger value="tle-data">TLE Data</TabsTrigger>
           <TabsTrigger value="neo-data">NEO Analysis</TabsTrigger>
           <TabsTrigger value="epic-imagery">EPIC Imagery</TabsTrigger>
+          <TabsTrigger value="mars-weather">Mars Weather</TabsTrigger>
         </TabsList>
         <TabsContent value="space-weather" className="animate-in fade-in-50 duration-500">
           <Card>
@@ -83,6 +85,19 @@ export default function ToolsPage() {
             </CardHeader>
             <CardContent>
               <EpicTool />
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="mars-weather" className="animate-in fade-in-50 duration-500">
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-headline">InSight Mars Weather</CardTitle>
+              <CardDescription>
+                Get the latest weather report from the InSight lander on Mars, summarized by an AI.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <MarsWeatherTool />
             </CardContent>
           </Card>
         </TabsContent>

@@ -5,6 +5,7 @@ const API_KEY = process.env.NASA_API_KEY || 'DEMO_KEY';
 const DONKI_BASE_URL = 'https://api.nasa.gov/DONKI';
 const NEO_BASE_URL = 'https://api.nasa.gov/neo/rest/v1';
 const EPIC_BASE_URL = 'https://api.nasa.gov/EPIC/api';
+const INSIGHT_BASE_URL = 'https://api.nasa.gov/insight_weather/';
 
 async function fetchDonkiData(endpoint: string, params: Record<string, string>) {
   const url = new URL(`${DONKI_BASE_URL}/${endpoint}`);
@@ -133,4 +134,27 @@ export function buildEpicImageUrl(image: { image: string, date: string }) {
     const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
     const day = date.getUTCDate().toString().padStart(2, '0');
     return `https://api.nasa.gov/EPIC/archive/natural/${year}/${month}/${day}/png/${image.image}.png?api_key=${API_KEY}`;
+}
+
+// InSight Mars Weather Functions
+async function fetchInSightData() {
+    const url = new URL(INSIGHT_BASE_URL);
+    url.searchParams.append('api_key', API_KEY);
+    url.searchParams.append('feedtype', 'json');
+    url.searchParams.append('ver', '1.0');
+
+    try {
+        const response = await fetch(url.toString(), { cache: 'no-store' });
+        if (!response.ok) {
+             throw new Error(`InSight API request failed with status ${response.status}: ${await response.text()}`);
+        }
+        return response.json();
+    } catch (error) {
+        console.error(`Error fetching InSight Mars weather data:`, error);
+        throw error;
+    }
+}
+
+export async function getInSightWeatherData() {
+    return fetchInSightData();
 }

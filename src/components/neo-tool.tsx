@@ -10,7 +10,8 @@ import { z } from "zod";
 
 import { analyzeNeoData } from "@/ai/flows/process-neo-data";
 import {
-  AnalyzeNeoDataInputSchema,
+  AnalyzeNeoDataClientInputSchema,
+  type AnalyzeNeoDataInput,
   type AnalyzeNeoDataOutput,
 } from "@/ai/schemas";
 import { Button } from "@/components/ui/button";
@@ -40,7 +41,7 @@ import {
 } from "./ui/card";
 import { Badge } from "./ui/badge";
 
-const formSchema = AnalyzeNeoDataInputSchema;
+const formSchema = AnalyzeNeoDataClientInputSchema;
 
 export default function NeoTool() {
   const { toast } = useToast();

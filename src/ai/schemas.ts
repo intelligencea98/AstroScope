@@ -46,7 +46,8 @@ export const ProcessTleDataOutputSchema = z.object({
 export type ProcessTleDataOutput = z.infer<typeof ProcessTleDataOutputSchema>;
 
 // Schema for NEO Data Analysis
-export const AnalyzeNeoDataInputSchema = z.object({
+// This is the schema for what the form on the client uses
+export const AnalyzeNeoDataClientInputSchema = z.object({
   startDate: z.date({required_error: "Please select a start date."}).describe('The start date for the NEO feed data.'),
   endDate: z.date({required_error: "Please select an end date."}).describe('The end date for the NEO feed data.'),
 }).superRefine((data, ctx) => {
@@ -65,7 +66,7 @@ export const AnalyzeNeoDataInputSchema = z.object({
     });
   }
 });
-export type AnalyzeNeoDataInput = z.infer<typeof AnalyzeNeoDataInputSchema>;
+export type AnalyzeNeoDataInput = z.infer<typeof AnalyzeNeoDataClientInputSchema>;
 
 export const AnalyzeNeoDataOutputSchema = z.object({
   summary: z.string().describe('A brief summary of NEO activity and potential threats for the week.'),
@@ -83,3 +84,24 @@ export const AnalyzeNeoDataOutputSchema = z.object({
   }).describe('Details of the largest object detected in the period.'),
 });
 export type AnalyzeNeoDataOutput = z.infer<typeof AnalyzeNeoDataOutputSchema>;
+
+
+// Schema for Mars Weather Analysis
+export const AnalyzeMarsWeatherDataInputSchema = z.object({
+  // No input needed, it fetches the latest data.
+});
+export type AnalyzeMarsWeatherDataInput = z.infer<typeof AnalyzeMarsWeatherDataInputSchema>;
+
+export const AnalyzeMarsWeatherDataOutputSchema = z.object({
+  summary: z.string().describe('A brief, engaging summary of the current weather conditions on Mars.'),
+  sols: z.array(z.object({
+    sol: z.string().describe('The Sol (Martian day) number.'),
+    terrestrialDate: z.string().describe('The corresponding date on Earth (UTC).'),
+    avgTemp: z.number().optional().describe('Average temperature in Celsius.'),
+    minTemp: z.number().optional().describe('Minimum temperature in Celsius.'),
+    maxTemp: z.number().optional().describe('Maximum temperature in Celsius.'),
+    avgWindSpeed: z.number().optional().describe('Average wind speed in meters per second.'),
+    pressure: z.number().optional().describe('Atmospheric pressure in Pascals.'),
+  })).describe('An array of weather data for each available Sol.'),
+});
+export type AnalyzeMarsWeatherDataOutput = z.infer<typeof AnalyzeMarsWeatherDataOutputSchema>;
