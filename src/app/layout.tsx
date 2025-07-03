@@ -3,6 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import AppSidebar from '@/components/app-sidebar';
+import AppFooter from '@/components/app-footer';
 
 export const metadata: Metadata = {
   title: 'AstroScope',
@@ -25,8 +26,11 @@ export default function RootLayout({
       <body className="font-body antialiased">
         <SidebarProvider>
           <AppSidebar />
-          <SidebarInset className="p-4 md:p-6">
-            {children}
+          <SidebarInset className="flex flex-col p-0">
+            <main className="flex-grow p-4 md:p-6">
+              {children}
+            </main>
+            <AppFooter />
           </SidebarInset>
         </SidebarProvider>
         <Toaster />
