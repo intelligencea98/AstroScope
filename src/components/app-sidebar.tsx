@@ -48,7 +48,7 @@ export default function AppSidebar() {
         <div className="flex items-center gap-2">
           <Logo className="size-8 text-primary" />
           <span className="font-headline text-lg font-semibold">
-            OrbitalView
+            AstroScope
           </span>
           <SidebarTrigger className="ml-auto" />
         </div>

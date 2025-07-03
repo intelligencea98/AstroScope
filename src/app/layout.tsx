@@ -5,8 +5,8 @@ import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import AppSidebar from '@/components/app-sidebar';
 
 export const metadata: Metadata = {
-  title: 'OrbitalView',
-  description: 'Real-time visualization of space debris and weather.',
+  title: 'AstroScope',
+  description: 'Real-time insights into the cosmos, powered by AI.',
 };
 
 export default function RootLayout({

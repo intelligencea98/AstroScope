@@ -28,7 +28,7 @@ export default function SettingsPage() {
         </div>
       </header>
       <p className="text-muted-foreground">
-        Customize your OrbitalView experience.
+        Customize your AstroScope experience.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

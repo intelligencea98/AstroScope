@@ -14,7 +14,7 @@ export default function AboutPage() {
         <div className="flex items-center gap-2">
            <SidebarTrigger className="md:hidden" />
           <h1 className="font-headline text-2xl md:text-3xl font-bold tracking-tight">
-            About OrbitalView
+            About AstroScope
           </h1>
         </div>
       </header>
@@ -27,7 +27,7 @@ export default function AboutPage() {
         </CardHeader>
         <CardContent className="space-y-4 text-muted-foreground">
           <p>
-            OrbitalView is a next-generation space situational awareness dashboard designed to provide real-time insights into the dynamic and often hazardous environment of Earth's orbit. By aggregating and visualizing data on space debris and space weather, we aim to deliver actionable intelligence to satellite operators, researchers, and space enthusiasts.
+            AstroScope is a next-generation space situational awareness dashboard designed to provide real-time insights into the dynamic and often hazardous environment of Earth's orbit. By aggregating and visualizing data on space debris and space weather, we aim to deliver actionable intelligence to satellite operators, researchers, and space enthusiasts.
           </p>
           <p>
             Our platform leverages cutting-edge AI to process complex datasets, identify potential threats, and generate timely alerts for high-risk events such as conjunctions between debris and satellites, or the impact of solar storms on orbital assets.
