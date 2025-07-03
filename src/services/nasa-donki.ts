@@ -35,12 +35,21 @@ async function fetchNeoData(endpoint: string, params: Record<string, string> = {
     try {
         const response = await fetch(url.toString(), { cache: 'no-store' });
         if (!response.ok) {
-            throw new Error(`NASA NeoWs API request failed with status ${response.status}: ${await response.text()}`);
+            let errorMessage = `Request failed with status ${response.status}`;
+            try {
+                const errorJson = await response.json();
+                if (errorJson.error_message) {
+                    errorMessage = errorJson.error_message;
+                }
+            } catch (e) {
+                // Ignore if response is not JSON
+            }
+            throw new Error(errorMessage);
         }
         return response.json();
     } catch (error) {
         console.error(`Error fetching data from NeoWs ${endpoint}:`, error);
-        return null;
+        throw error;
     }
 }
 

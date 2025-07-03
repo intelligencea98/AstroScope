@@ -51,7 +51,7 @@ export default function NeoTool() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       startDate: new Date(),
-      endDate: addDays(new Date(), 7),
+      endDate: addDays(new Date(), 6),
     },
   });
 
@@ -70,7 +70,7 @@ export default function NeoTool() {
       toast({
         variant: "destructive",
         title: "Analysis Failed",
-        description: "Could not process the NEO data.",
+        description: error instanceof Error ? error.message : "An unknown error occurred.",
       });
     } finally {
       setLoading(false);
@@ -162,7 +162,7 @@ export default function NeoTool() {
               />
             </div>
             <FormDescription>
-                Select a date range (max 7 days recommended) to fetch and analyze NEO data from the NASA NeoWs API.
+                Select a date range (max 7 days) to fetch and analyze NEO data from the NASA NeoWs API.
             </FormDescription>
             <Button type="submit" disabled={loading} className="w-full">
               {loading ? (

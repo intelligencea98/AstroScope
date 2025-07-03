@@ -1,6 +1,6 @@
-
 // src/ai/schemas.ts
 import {z} from 'zod';
+import { differenceInDays } from 'date-fns';
 
 // Schema for Space Weather Data Analysis
 export const AnalyzeSpaceWeatherDataInputSchema = z.object({
@@ -46,6 +46,21 @@ export type ProcessTleDataOutput = z.infer<typeof ProcessTleDataOutputSchema>;
 export const AnalyzeNeoDataInputSchema = z.object({
   startDate: z.date().describe('The start date for the NEO feed data.'),
   endDate: z.date().describe('The end date for the NEO feed data.'),
+}).superRefine((data, ctx) => {
+  if (data.endDate < data.startDate) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['endDate'],
+      message: 'End date cannot be before start date.',
+    });
+  }
+  if (differenceInDays(data.endDate, data.startDate) > 6) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['endDate'],
+      message: 'The date range cannot be longer than 7 days.',
+    });
+  }
 });
 export type AnalyzeNeoDataInput = z.infer<typeof AnalyzeNeoDataInputSchema>;
 

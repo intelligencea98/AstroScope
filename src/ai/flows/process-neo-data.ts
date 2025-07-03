@@ -71,9 +71,6 @@ const analyzeNeoDataFlow = ai.defineFlow(
     const formattedStartDate = format(startDate, 'yyyy-MM-dd');
     const formattedEndDate = format(endDate, 'yyyy-MM-dd');
     const neoData = await getNeoFeed(formattedStartDate, formattedEndDate);
-    if (!neoData) {
-        throw new Error('Could not fetch NEO data.');
-    }
 
     const {output} = await prompt({
         neoData: JSON.stringify(neoData, null, 2),
