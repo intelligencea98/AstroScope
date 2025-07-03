@@ -1,13 +1,9 @@
 // src/ai/schemas.ts
-import {z} from 'genkit';
+import {z} from 'zod';
 
 // Schema for Space Weather Data Analysis
 export const AnalyzeSpaceWeatherDataInputSchema = z.object({
-  solarFlareData: z.string().describe('Data about solar flares from NASA DONKI.'),
-  cmeData: z.string().describe('Data about coronal mass ejections (CMEs) from NASA DONKI.'),
-  geomagneticStormData: z
-    .string()
-    .describe('Data about geomagnetic storms from NASA DONKI.'),
+  // No input needed, it will fetch the last 3 days of data automatically.
 });
 export type AnalyzeSpaceWeatherDataInput = z.infer<typeof AnalyzeSpaceWeatherDataInputSchema>;
 
@@ -19,19 +15,28 @@ export const AnalyzeSpaceWeatherDataOutputSchema = z.object({
   affectedSatellites: z
     .array(z.string())
     .describe('A list of specific satellites that may be at risk.'),
+  cmeCount: z.number().describe('Number of Coronal Mass Ejections (CMEs) detected.'),
+  gstCount: z.number().describe('Number of Geomagnetic Storms (GSTs) detected.'),
+  flrCount: z.number().describe('Number of Solar Flares (FLRs) detected.'),
 });
 export type AnalyzeSpaceWeatherDataOutput = z.infer<typeof AnalyzeSpaceWeatherDataOutputSchema>;
 
 
 // Schema for TLE Data Processing
 export const ProcessTleDataInputSchema = z.object({
-  tleData: z
+  group: z
     .string()
-    .describe('The TLE data to process.'),
+    .describe("The Celestrak satellite group to fetch TLE data for (e.g., 'active', 'stations')."),
 });
 export type ProcessTleDataInput = z.infer<typeof ProcessTleDataInputSchema>;
 
 export const ProcessTleDataOutputSchema = z.object({
-  orbitalPositions: z.string().describe('The orbital positions extracted from the TLE data.'),
+  satelliteCount: z.number().describe('The number of satellites processed from the TLE data.'),
+  positions: z.array(z.object({
+    name: z.string().describe('The name of the satellite.'),
+    line1: z.string().describe('The first line of the TLE data.'),
+    line2: z.string().describe('The second line of the TLE data.'),
+  })).describe('An array of orbital positions extracted from the TLE data.'),
+  summary: z.string().describe('A brief summary of the processed TLE data.'),
 });
 export type ProcessTleDataOutput = z.infer<typeof ProcessTleDataOutputSchema>;

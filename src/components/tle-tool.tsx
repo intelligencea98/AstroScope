@@ -9,6 +9,7 @@ import { processTleData } from "@/ai/flows/process-tle-data";
 import {
   ProcessTleDataInputSchema,
   type ProcessTleDataInput,
+  type ProcessTleDataOutput,
 } from "@/ai/schemas";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +20,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import {
   Card,
@@ -27,22 +27,46 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { ScrollArea } from "./ui/scroll-area";
+
 
 const formSchema = ProcessTleDataInputSchema;
 
-const defaultTleData = `ISS (ZARYA)
-1 25544U 98067A   24137.91690972  .00016717  00000-0  30965-3 0  9993
-2 25544  51.6416 252.0977 0006703 130.5360 343.2267 15.49501224 274295`;
+const tleGroups = [
+    { value: 'active', label: 'Active Satellites' },
+    { value: 'stations', label: 'Space Stations' },
+    { value: 'gps-ops', label: 'GPS Operational' },
+    { value: 'glo-ops', label: 'GLONASS Operational' },
+    { value: 'galileo', label: 'Galileo' },
+    { value: 'beidou', label: 'BeiDou' },
+    { value: 'starlink', label: 'Starlink' },
+    { value: 'spire', label: 'Spire' },
+    { value: 'planet', label: 'Planet' },
+    { value: 'ses', label: 'SES' },
+    { value: 'iridium-next', label: 'Iridium NEXT' },
+    { value: 'orbcomm', label: 'Orbcomm' },
+    { value: 'noaa', label: 'NOAA Weather' },
+    { value: 'goes', label: 'GOES Weather' },
+    { value: 'resource', label: 'Earth Resources' },
+    { value: 'sarsat', label: 'Search & Rescue (SARSAT)' },
+    { value: 'tdrss', label: 'TDRSS' },
+    { value: 'argos', label: 'ARGOS' },
+    { value: 'last-30-days', label: 'Last 30 Days Launches' },
+    { value: '1999-025', label: 'Debris from Cosmos 2251 Collision' },
+    { value: '2012-044', label: 'Debris from Breeze-M Breakup' },
+];
+
 
 export default function TleTool() {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<ProcessTleDataOutput | null>(null);
 
   const form = useForm<ProcessTleDataInput>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      tleData: defaultTleData,
+      group: "stations",
     },
   });
 
@@ -54,7 +78,7 @@ export default function TleTool() {
       setResult(analysisResult);
       toast({
         title: "Processing Complete",
-        description: "TLE data processed successfully.",
+        description: `TLE data for '${values.group}' processed successfully.`,
       });
     } catch (error) {
       console.error("Processing failed:", error);
@@ -69,22 +93,27 @@ export default function TleTool() {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <FormField
             control={form.control}
-            name="tleData"
+            name="group"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Two-Line Element (TLE) Data</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Paste TLE data here"
-                    className="h-48 font-code text-xs"
-                    {...field}
-                  />
-                </FormControl>
+                <FormLabel>Satellite Group</FormLabel>
+                 <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                        <SelectTrigger>
+                        <SelectValue placeholder="Select a satellite group" />
+                        </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                        {tleGroups.map(group => (
+                            <SelectItem key={group.value} value={group.value}>{group.label}</SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -95,14 +124,14 @@ export default function TleTool() {
             ) : (
               <Bot className="mr-2 h-4 w-4" />
             )}
-            Process TLE Data
+            Process TLE Data from Celestrak
           </Button>
         </form>
       </Form>
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center min-h-[300px]">
         {loading && <Loader2 className="h-10 w-10 animate-spin text-primary" />}
         {!loading && !result && (
-          <div className="text-center text-muted-foreground p-8 border-2 border-dashed rounded-lg">
+          <div className="text-center text-muted-foreground p-8 border-2 border-dashed rounded-lg w-full">
             <Bot className="mx-auto h-12 w-12" />
             <p className="mt-4 font-headline">Processed data will appear here</p>
           </div>
@@ -111,13 +140,18 @@ export default function TleTool() {
           <Card className="w-full bg-muted/30">
             <CardHeader>
               <CardTitle className="font-headline text-primary">
-                Extracted Orbital Positions
+                Processed TLE Data
               </CardTitle>
+              <p className="text-sm text-muted-foreground">{result.summary}</p>
             </CardHeader>
             <CardContent>
-              <pre className="p-4 bg-background/50 rounded-lg text-sm text-foreground overflow-x-auto">
-                <code>{result.orbitalPositions}</code>
-              </pre>
+                <ScrollArea className="h-72 w-full rounded-md border">
+                    <pre className="p-4 bg-background/50 text-xs text-foreground">
+                        <code>
+                            {result.positions.map(p => `${p.name}\n${p.line1}\n${p.line2}`).join('\n\n')}
+                        </code>
+                    </pre>
+                </ScrollArea>
             </CardContent>
           </Card>
         )}

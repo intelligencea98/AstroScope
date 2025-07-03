@@ -1,93 +1,34 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Bot, Loader2 } from "lucide-react";
 
 import { analyzeSpaceWeatherData } from "@/ai/flows/process-space-weather-data";
-import {
-  AnalyzeSpaceWeatherDataInputSchema,
-  type AnalyzeSpaceWeatherDataInput,
-} from "@/ai/schemas";
+import { type AnalyzeSpaceWeatherDataOutput } from "@/ai/schemas";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "./ui/card";
 import { Badge } from "./ui/badge";
 
-const formSchema = AnalyzeSpaceWeatherDataInputSchema;
-
-const defaultFlareData = `[
-  {
-    "flrID": "2024-05-14T09:31:00-FLR-001",
-    "beginTime": "2024-05-14T09:20Z",
-    "peakTime": "2024-05-14T09:31Z",
-    "classType": "X1.7",
-    "sourceLocation": "S18W89",
-    "activeRegionNum": 13663
-  }
-]`;
-
-const defaultCMEData = `[
-  {
-    "activityID": "2024-05-14T11:36:00-CME-001",
-    "startTime": "2024-05-14T11:36Z",
-    "type": "C",
-    "speed": 1200,
-    "isMostAccurate": true
-  }
-]`;
-
-const defaultStormData = `[
-  {
-    "gstID": "2024-05-14T18:00:00-GST-001",
-    "startTime": "2024-05-14T18:00Z",
-    "allKpIndex": [
-      { "observedTime": "2024-05-14T18:00Z", "kpIndex": 7 }
-    ]
-  }
-]`;
-
-
 export default function SpaceWeatherTool() {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<AnalyzeSpaceWeatherDataOutput | null>(null);
 
-  const form = useForm<AnalyzeSpaceWeatherDataInput>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      solarFlareData: defaultFlareData,
-      cmeData: defaultCMEData,
-      geomagneticStormData: defaultStormData,
-    },
-  });
-
-  async function onSubmit(values: AnalyzeSpaceWeatherDataInput) {
+  async function handleAnalyze() {
     setLoading(true);
     setResult(null);
     try {
-      const analysisResult = await analyzeSpaceWeatherData(values);
+      const analysisResult = await analyzeSpaceWeatherData({});
       setResult(analysisResult);
       toast({
         title: "Analysis Complete",
-        description: "Space weather data processed successfully.",
+        description: "Recent space weather data processed successfully.",
       });
     } catch (error) {
       console.error("Analysis failed:", error);
@@ -102,74 +43,27 @@ export default function SpaceWeatherTool() {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <FormField
-            control={form.control}
-            name="solarFlareData"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Solar Flare Data (JSON)</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Paste solar flare data here"
-                    className="h-32 font-code text-xs"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="cmeData"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>CME Data (JSON)</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Paste CME data here"
-                    className="h-32 font-code text-xs"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="geomagneticStormData"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Geomagnetic Storm Data (JSON)</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Paste geomagnetic storm data here"
-                    className="h-32 font-code text-xs"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit" disabled={loading} className="w-full">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+      <div className="flex flex-col gap-4 p-4 border rounded-lg bg-muted/20">
+         <div className="space-y-2">
+            <h3 className="font-semibold font-headline">Analyze Recent Space Weather</h3>
+            <p className="text-sm text-muted-foreground">
+                Click the button to fetch and analyze space weather data (CME, GST, FLR) from the last 3 days using the NASA DONKI API. The AI will provide a risk assessment based on the events.
+            </p>
+         </div>
+          <Button onClick={handleAnalyze} disabled={loading} className="w-full">
             {loading ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             ) : (
               <Bot className="mr-2 h-4 w-4" />
             )}
-            Analyze Weather Data
+            Analyze Last 3 Days
           </Button>
-        </form>
-      </Form>
-      <div className="flex items-center justify-center">
+      </div>
+      <div className="flex items-center justify-center min-h-[300px]">
         {loading && <Loader2 className="h-10 w-10 animate-spin text-primary" />}
         {!loading && !result && (
-          <div className="text-center text-muted-foreground p-8 border-2 border-dashed rounded-lg">
+          <div className="text-center text-muted-foreground p-8 border-2 border-dashed rounded-lg w-full">
             <Bot className="mx-auto h-12 w-12" />
             <p className="mt-4 font-headline">AI Analysis will appear here</p>
           </div>
@@ -182,6 +76,14 @@ export default function SpaceWeatherTool() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
+               <div>
+                <p className="font-semibold text-lg">Event Counts (Last 3 Days)</p>
+                <div className="flex gap-2 mt-1 flex-wrap">
+                    <Badge variant="secondary">CMEs: {result.cmeCount}</Badge>
+                    <Badge variant="secondary">GSTs: {result.gstCount}</Badge>
+                    <Badge variant="secondary">Flares: {result.flrCount}</Badge>
+                </div>
+              </div>
               <div>
                 <p className="font-semibold text-lg">Risk Level</p>
                 <Badge
@@ -205,11 +107,15 @@ export default function SpaceWeatherTool() {
               </div>
               <div>
                 <p className="font-semibold text-lg">Potentially Affected Satellites</p>
-                <ul className="list-disc list-inside text-sm text-muted-foreground">
-                  {result.affectedSatellites.map((sat: string) => (
-                    <li key={sat}>{sat}</li>
-                  ))}
-                </ul>
+                {result.affectedSatellites.length > 0 ? (
+                    <ul className="list-disc list-inside text-sm text-muted-foreground">
+                    {result.affectedSatellites.map((sat: string) => (
+                        <li key={sat}>{sat}</li>
+                    ))}
+                    </ul>
+                ) : (
+                    <p className="text-sm text-muted-foreground">None specified in analysis.</p>
+                )}
               </div>
             </CardContent>
           </Card>
