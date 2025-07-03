@@ -40,3 +40,27 @@ export const ProcessTleDataOutputSchema = z.object({
   summary: z.string().describe('A brief summary of the processed TLE data.'),
 });
 export type ProcessTleDataOutput = z.infer<typeof ProcessTleDataOutputSchema>;
+
+// Schema for NEO Data Analysis
+export const AnalyzeNeoDataInputSchema = z.object({
+  startDate: z.date().describe('The start date for the NEO feed data.'),
+  endDate: z.date().describe('The end date for the NEO feed data.'),
+});
+export type AnalyzeNeoDataInput = z.infer<typeof AnalyzeNeoDataInputSchema>;
+
+export const AnalyzeNeoDataOutputSchema = z.object({
+  summary: z.string().describe('A brief summary of NEO activity and potential threats for the week.'),
+  totalNeos: z.number().describe('The total number of Near Earth Objects detected in the period.'),
+  potentiallyHazardousNeos: z.number().describe('The number of potentially hazardous asteroids detected.'),
+  closestApproach: z.object({
+    name: z.string().describe('Name of the NEO with the closest approach.'),
+    missDistanceKm: z.string().describe('The miss distance in kilometers.'),
+    estimatedDiameterKm: z.string().describe('The average estimated diameter in kilometers.'),
+  }).describe('Details of the object making the closest approach to Earth.'),
+  largestObject: z.object({
+    name: z.string().describe('Name of the largest NEO detected.'),
+    estimatedDiameterKm: z.string().describe('The average estimated diameter in kilometers.'),
+    relativeVelocityKph: z.string().describe('The relative velocity in kilometers per hour.'),
+  }).describe('Details of the largest object detected in the period.'),
+});
+export type AnalyzeNeoDataOutput = z.infer<typeof AnalyzeNeoDataOutputSchema>;

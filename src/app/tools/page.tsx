@@ -1,5 +1,6 @@
 import SpaceWeatherTool from "@/components/space-weather-tool";
 import TleTool from "@/components/tle-tool";
+import NeoTool from "@/components/neo-tool";
 import {
   Card,
   CardContent,
@@ -26,16 +27,17 @@ export default function ToolsPage() {
       </p>
 
       <Tabs defaultValue="space-weather" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="space-weather">Space Weather Analysis</TabsTrigger>
-          <TabsTrigger value="tle-data">TLE Data Processing</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="space-weather">Space Weather</TabsTrigger>
+          <TabsTrigger value="tle-data">TLE Data</TabsTrigger>
+          <TabsTrigger value="neo-data">NEO Analysis</TabsTrigger>
         </TabsList>
         <TabsContent value="space-weather">
           <Card>
             <CardHeader>
               <CardTitle className="font-headline">Space Weather Analysis</CardTitle>
               <CardDescription>
-                Input raw data from NASA DONKI to get an AI-powered risk assessment for satellites.
+                Get an AI-powered risk assessment for satellites based on recent NASA DONKI data.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -48,11 +50,24 @@ export default function ToolsPage() {
             <CardHeader>
               <CardTitle className="font-headline">TLE Data Processing</CardTitle>
               <CardDescription>
-                Paste Two-Line Element (TLE) data to extract orbital position information.
+                Fetch TLE data from Celestrak for a group of satellites and let an AI process it.
               </CardDescription>
             </CardHeader>
             <CardContent>
               <TleTool />
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="neo-data">
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-headline">Near Earth Object (NEO) Analysis</CardTitle>
+              <CardDescription>
+                Analyze asteroids and comets that have a close approach to Earth within a date range.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <NeoTool />
             </CardContent>
           </Card>
         </TabsContent>
