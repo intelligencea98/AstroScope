@@ -29,7 +29,7 @@ export default function ToolsPage() {
       </p>
 
       <Tabs defaultValue="space-weather" className="w-full">
-        <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
+        <TabsList className="flex h-auto w-full flex-wrap justify-start">
           <TabsTrigger value="space-weather">Space Weather</TabsTrigger>
           <TabsTrigger value="tle-data">TLE Data</TabsTrigger>
           <TabsTrigger value="neo-data">NEO Analysis</TabsTrigger>
