@@ -3,10 +3,10 @@ import { ShieldAlert } from "lucide-react";
 
 export default function AlertBanner() {
   return (
-    <Alert className="bg-accent/10 border-accent/50 text-accent-foreground animate-in fade-in slide-in-from-top-2 duration-500">
-      <ShieldAlert className="h-5 w-5 !text-accent" />
-      <AlertTitle className="font-headline text-lg text-accent">High-Risk Alert!</AlertTitle>
-      <AlertDescription className="text-foreground/80">
+    <Alert variant="destructive" className="bg-destructive/10 animate-in fade-in slide-in-from-top-2 duration-500">
+      <ShieldAlert className="h-5 w-5" />
+      <AlertTitle className="font-headline text-lg">High-Risk Alert!</AlertTitle>
+      <AlertDescription className="text-destructive-foreground/90">
         A high-energy solar flare is projected to intersect with a high-density debris field. Potential impact on LEO satellites.
       </AlertDescription>
     </Alert>
