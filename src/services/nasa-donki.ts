@@ -6,6 +6,7 @@ const DONKI_BASE_URL = 'https://api.nasa.gov/DONKI';
 const NEO_BASE_URL = 'https://api.nasa.gov/neo/rest/v1';
 const EPIC_BASE_URL = 'https://api.nasa.gov/EPIC/api';
 const INSIGHT_BASE_URL = 'https://api.nasa.gov/insight_weather/';
+const PLANETARY_BASE_URL = 'https://api.nasa.gov/planetary';
 
 async function fetchDonkiData(endpoint: string, params: Record<string, string>) {
   const url = new URL(`${DONKI_BASE_URL}/${endpoint}`);
@@ -157,4 +158,36 @@ async function fetchInSightData() {
 
 export async function getInSightWeatherData() {
     return fetchInSightData();
+}
+
+// Planetary API Functions
+async function fetchPlanetaryData(endpoint: string, params: Record<string, string> = {}) {
+    const url = new URL(`${PLANETARY_BASE_URL}/${endpoint}`);
+    url.searchParams.append('api_key', API_KEY);
+    for (const key in params) {
+        url.searchParams.append(key, params[key]);
+    }
+    try {
+        const response = await fetch(url.toString(), { cache: 'no-store' });
+        if (!response.ok) {
+            let errorMessage = `Planetary API request failed with status ${response.status}`;
+            try {
+                const errorJson = await response.json();
+                if (errorJson.msg) {
+                    errorMessage = errorJson.msg;
+                }
+            } catch (e) {
+                // Ignore if response is not JSON
+            }
+            throw new Error(errorMessage);
+        }
+        return response.json();
+    } catch (error) {
+        console.error(`Error fetching data from Planetary API ${endpoint}:`, error);
+        throw error;
+    }
+}
+
+export async function getApod() {
+    return fetchPlanetaryData('apod');
 }
