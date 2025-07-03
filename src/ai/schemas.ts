@@ -33,11 +33,14 @@ export type ProcessTleDataInput = z.infer<typeof ProcessTleDataInputSchema>;
 
 export const ProcessTleDataOutputSchema = z.object({
   satelliteCount: z.number().describe('The number of satellites processed from the TLE data.'),
-  positions: z.array(z.object({
+  satellites: z.array(z.object({
     name: z.string().describe('The name of the satellite.'),
-    line1: z.string().describe('The first line of the TLE data.'),
-    line2: z.string().describe('The second line of the TLE data.'),
-  })).describe('An array of orbital positions extracted from the TLE data.'),
+    noradId: z.number().describe('The NORAD catalog number for the satellite.'),
+    inclination: z.number().describe('The orbital inclination in degrees.'),
+    eccentricity: z.number().describe('The orbital eccentricity, a value between 0 and 1.'),
+    meanMotion: z.number().describe('The mean motion in revolutions per day.'),
+    epoch: z.string().describe('The epoch of the TLE data as a human-readable date and time (e.g., "2024-07-25 14:30:00 UTC").'),
+  })).describe('An array of satellites with their parsed orbital parameters.'),
   summary: z.string().describe('A brief summary of the processed TLE data.'),
 });
 export type ProcessTleDataOutput = z.infer<typeof ProcessTleDataOutputSchema>;

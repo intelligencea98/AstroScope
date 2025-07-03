@@ -29,6 +29,7 @@ import {
 } from "./ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { ScrollArea } from "./ui/scroll-area";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
 
 
 const formSchema = ProcessTleDataInputSchema;
@@ -145,12 +146,25 @@ export default function TleTool() {
               <p className="text-sm text-muted-foreground">{result.summary}</p>
             </CardHeader>
             <CardContent>
-                <ScrollArea className="h-72 w-full rounded-md border">
-                    <pre className="p-4 bg-background/50 text-xs text-foreground">
-                        <code>
-                            {result.positions.map(p => `${p.name}\n${p.line1}\n${p.line2}`).join('\n\n')}
-                        </code>
-                    </pre>
+                <ScrollArea className="h-72 w-full rounded-md border p-2">
+                  <Accordion type="single" collapsible className="w-full">
+                    {result.satellites.map((satellite) => (
+                      <AccordionItem value={satellite.noradId.toString()} key={satellite.noradId}>
+                        <AccordionTrigger className="font-semibold hover:no-underline text-left">
+                          {satellite.name}
+                        </AccordionTrigger>
+                        <AccordionContent className="p-4 bg-background/50 rounded-md">
+                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                            <div><strong className="font-medium text-muted-foreground">NORAD ID:</strong> {satellite.noradId}</div>
+                            <div><strong className="font-medium text-muted-foreground">Inclination:</strong> {satellite.inclination.toFixed(4)}°</div>
+                            <div><strong className="font-medium text-muted-foreground">Eccentricity:</strong> {satellite.eccentricity.toFixed(7)}</div>
+                            <div><strong className="font-medium text-muted-foreground">Mean Motion:</strong> {satellite.meanMotion.toFixed(4)} rev/day</div>
+                            <div className="col-span-1 sm:col-span-2"><strong className="font-medium text-muted-foreground">Epoch:</strong> {satellite.epoch}</div>
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
                 </ScrollArea>
             </CardContent>
           </Card>
