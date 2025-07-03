@@ -13,7 +13,7 @@ import { SidebarTrigger } from '@/components/ui/sidebar';
 
 export default function ToolsPage() {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 animate-in fade-in duration-500">
       <header className="flex items-center justify-between">
          <div className="flex items-center gap-2">
            <SidebarTrigger className="md:hidden" />
@@ -32,7 +32,7 @@ export default function ToolsPage() {
           <TabsTrigger value="tle-data">TLE Data</TabsTrigger>
           <TabsTrigger value="neo-data">NEO Analysis</TabsTrigger>
         </TabsList>
-        <TabsContent value="space-weather">
+        <TabsContent value="space-weather" className="animate-in fade-in-50 duration-500">
           <Card>
             <CardHeader>
               <CardTitle className="font-headline">Space Weather Analysis</CardTitle>
@@ -45,7 +45,7 @@ export default function ToolsPage() {
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="tle-data">
+        <TabsContent value="tle-data" className="animate-in fade-in-50 duration-500">
           <Card>
             <CardHeader>
               <CardTitle className="font-headline">TLE Data Processing</CardTitle>
@@ -58,7 +58,7 @@ export default function ToolsPage() {
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="neo-data">
+        <TabsContent value="neo-data" className="animate-in fade-in-50 duration-500">
           <Card>
             <CardHeader>
               <CardTitle className="font-headline">Near Earth Object (NEO) Analysis</CardTitle>

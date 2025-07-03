@@ -41,7 +41,7 @@ const atRiskSatellites = [
 export default function RiskPanel() {
   return (
     <div className="flex flex-col gap-6">
-      <Card>
+      <Card className="transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1">
         <CardHeader>
           <CardTitle className="font-headline">Current Risk Statistics</CardTitle>
           <CardDescription>Real-time threat analysis</CardDescription>
@@ -62,7 +62,7 @@ export default function RiskPanel() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1">
         <CardHeader>
           <CardTitle className="font-headline">Key Satellites at Risk</CardTitle>
           <CardDescription>Prioritized list of vulnerable assets</CardDescription>

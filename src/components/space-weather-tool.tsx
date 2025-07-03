@@ -69,7 +69,7 @@ export default function SpaceWeatherTool() {
           </div>
         )}
         {result && (
-          <Card className="w-full bg-muted/30">
+          <Card className="w-full bg-muted/30 animate-in fade-in-50 slide-in-from-bottom-10 duration-500">
             <CardHeader>
               <CardTitle className="font-headline text-primary">
                 AI Analysis Result

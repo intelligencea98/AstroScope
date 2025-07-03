@@ -18,7 +18,7 @@ import { SidebarTrigger } from '@/components/ui/sidebar';
 
 export default function SettingsPage() {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 animate-in fade-in duration-500">
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-2">
            <SidebarTrigger className="md:hidden" />
@@ -32,7 +32,7 @@ export default function SettingsPage() {
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
+        <Card className="transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1">
           <CardHeader>
             <CardTitle className="font-headline">Notification Preferences</CardTitle>
             <CardDescription>
@@ -70,7 +70,7 @@ export default function SettingsPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1">
           <CardHeader>
             <CardTitle className="font-headline">Display Settings</CardTitle>
             <CardDescription>

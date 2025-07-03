@@ -9,7 +9,7 @@ import { SidebarTrigger } from '@/components/ui/sidebar';
 
 export default function AboutPage() {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 animate-in fade-in duration-500">
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-2">
            <SidebarTrigger className="md:hidden" />
@@ -18,7 +18,7 @@ export default function AboutPage() {
           </h1>
         </div>
       </header>
-      <Card>
+      <Card className="transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1">
         <CardHeader>
           <CardTitle className="font-headline">Our Mission</CardTitle>
           <CardDescription>
@@ -34,7 +34,7 @@ export default function AboutPage() {
           </p>
         </CardContent>
       </Card>
-       <Card>
+       <Card className="transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1">
         <CardHeader>
           <CardTitle className="font-headline">Data Sources & Credits</CardTitle>
           <CardDescription>
