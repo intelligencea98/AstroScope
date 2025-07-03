@@ -18,14 +18,10 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
-  SidebarSeparator,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Logo } from "@/components/icons";
-import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "./theme-toggle";
 
 const menuItems = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -71,15 +67,14 @@ export default function AppSidebar() {
           ))}
         </SidebarMenu>
       </SidebarContent>
-      <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
+      <SidebarFooter className="flex-row items-center border-t border-sidebar-border p-2">
+        <div className="flex-1">
             <SidebarMenuButton tooltip="Profile">
               <UserCircle />
               <span>Guest User</span>
             </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        </div>
+        <ThemeToggle />
       </SidebarFooter>
     </Sidebar>
   );
