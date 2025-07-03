@@ -1,4 +1,3 @@
-'use server';
 
 import { subDays, format } from 'date-fns';
 
