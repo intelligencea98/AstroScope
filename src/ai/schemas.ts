@@ -44,8 +44,8 @@ export type ProcessTleDataOutput = z.infer<typeof ProcessTleDataOutputSchema>;
 
 // Schema for NEO Data Analysis
 export const AnalyzeNeoDataInputSchema = z.object({
-  startDate: z.coerce.date().describe('The start date for the NEO feed data.'),
-  endDate: z.coerce.date().describe('The end date for the NEO feed data.'),
+  startDate: z.date({required_error: "Please select a start date."}).describe('The start date for the NEO feed data.'),
+  endDate: z.date({required_error: "Please select an end date."}).describe('The end date for the NEO feed data.'),
 }).superRefine((data, ctx) => {
   if (data.endDate < data.startDate) {
     ctx.addIssue({

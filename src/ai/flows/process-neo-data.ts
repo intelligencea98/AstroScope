@@ -10,7 +10,6 @@
 
 import {ai} from '@/ai/genkit';
 import {
-  AnalyzeNeoDataInputSchema,
   AnalyzeNeoDataOutputSchema,
 } from '@/ai/schemas';
 import type {
@@ -19,17 +18,29 @@ import type {
 } from '@/ai/schemas';
 import { getNeoFeed } from '@/services/nasa-donki';
 import { z } from 'zod';
-import { format } from 'date-fns';
+import { format, differenceInDays, parseISO } from 'date-fns';
 
 export type {
   AnalyzeNeoDataInput,
   AnalyzeNeoDataOutput,
 };
 
+// This is the schema for what the flow *actually* receives after JSON serialization
+const FlowInputSchema = z.object({
+  startDate: z.string(),
+  endDate: z.string(),
+});
+
+
 export async function analyzeNeoData(
   input: AnalyzeNeoDataInput
 ): Promise<AnalyzeNeoDataOutput> {
-  return analyzeNeoDataFlow(input);
+  // Convert dates to strings before calling the flow
+  const flowInput = {
+    startDate: input.startDate.toISOString(),
+    endDate: input.endDate.toISOString(),
+  };
+  return analyzeNeoDataFlow(flowInput);
 }
 
 const NeoAnalysisPromptInputSchema = z.object({
@@ -64,12 +75,23 @@ const prompt = ai.definePrompt({
 const analyzeNeoDataFlow = ai.defineFlow(
   {
     name: 'analyzeNeoDataFlow',
-    inputSchema: AnalyzeNeoDataInputSchema,
+    inputSchema: FlowInputSchema,
     outputSchema: AnalyzeNeoDataOutputSchema,
   },
   async ({ startDate, endDate }) => {
-    const formattedStartDate = format(startDate, 'yyyy-MM-dd');
-    const formattedEndDate = format(endDate, 'yyyy-MM-dd');
+    // Parse strings back to dates and perform validation
+    const parsedStartDate = parseISO(startDate);
+    const parsedEndDate = parseISO(endDate);
+
+    if (parsedEndDate < parsedStartDate) {
+        throw new Error('End date cannot be before start date.');
+    }
+    if (differenceInDays(parsedEndDate, parsedStartDate) > 6) {
+        throw new Error('The date range cannot be longer than 7 days.');
+    }
+    
+    const formattedStartDate = format(parsedStartDate, 'yyyy-MM-dd');
+    const formattedEndDate = format(parsedEndDate, 'yyyy-MM-dd');
     const neoData = await getNeoFeed(formattedStartDate, formattedEndDate);
 
     const {output} = await prompt({
